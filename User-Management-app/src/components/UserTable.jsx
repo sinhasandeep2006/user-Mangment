@@ -16,6 +16,7 @@ const UserTable = ({ users, setUsers, handleShowForm }) => {
           <th>Name</th>
           <th>Email</th>
           <th>Phone</th>
+          <th>Company Name</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -25,10 +26,10 @@ const UserTable = ({ users, setUsers, handleShowForm }) => {
             <td>{user.name}</td>
             <td>{user.email}</td>
             <td>{user.phone}</td>
+            <td>{user.company.name}</td>
             <td>
               <Link to={`/user/${user.id}`} className="btn btn-primary mr-2">Details</Link>
-              <Button variant="warning" onClick={() => handleShowForm(user)}>Edit</Button>
-              <Button variant="danger" onClick={() => handleDelete(user.id)}>Delete</Button>
+           
             </td>
           </tr>
         ))}
@@ -45,9 +46,9 @@ UserTable.propTypes = {
         email: PropTypes.string.isRequired,
         phone: PropTypes.string.isRequired,
       })
-    ).isRequired, // Validate the users array
-    setUsers: PropTypes.func.isRequired, // Validate setUsers function
-    handleShowForm: PropTypes.func.isRequired, // Validate handleShowForm function
+    ).isRequired,
+    setUsers: PropTypes.func.isRequired,
+    handleShowForm: PropTypes.func.isRequired,
   };
 export default UserTable;
 

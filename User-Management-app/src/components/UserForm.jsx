@@ -17,15 +17,14 @@ const UserForm = ({ show, handleClose, user, setUsers }) => {
     if (user) {
       setFormData({
         ...user,
-        address: { street: user.address.street, city: user.address.city } // Correctly structure the address
+        address: { street: user.address.street, city: user.address.city } 
       });
     } else {
-      // Reset form data for creating a new user
       setFormData({
         name: '',
         email: '',
         phone: '',
-        username: `USER-${Math.random().toString(36).substring(2, 7)}`, // Generate username format
+        username: `USER-${Math.random().toString(36).substring(2, 7)}`,
         address: { street: '', city: '' },
         website: ''
       });
@@ -34,24 +33,22 @@ const UserForm = ({ show, handleClose, user, setUsers }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    // Handle address fields separately
     if (name.includes('address.')) {
-      const fieldName = name.split('.')[1]; // Get the field name after 'address.'
+      const fieldName = name.split('.')[1]; 
       setFormData((prev) => ({
         ...prev,
-        address: { ...prev.address, [fieldName]: value } // Update address fields
+        address: { ...prev.address, [fieldName]: value } 
       }));
     } else {
       setFormData((prev) => ({
         ...prev,
-        [name]: value // Update other fields
+        [name]: value 
       }));
     }
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault(); 
 
     const apiCall = user
       ? axios.put(`https://jsonplaceholder.typicode.com/users/${user.id}`, formData)
@@ -60,13 +57,13 @@ const UserForm = ({ show, handleClose, user, setUsers }) => {
     apiCall
       .then((response) => {
         if (user) {
-          // Update the user in the state
+          
           setUsers((prev) => prev.map((u) => (u.id === user.id ? response.data : u)));
         } else {
-          // Add the new user to the state
+         
           setUsers((prev) => [...prev, response.data]);
         }
-        handleClose(); // Close the modal
+        handleClose(); 
       })
       .catch((error) => console.error('Error saving user:', error));
   };
@@ -77,7 +74,7 @@ const UserForm = ({ show, handleClose, user, setUsers }) => {
         <Modal.Title>{user ? 'Edit User' : 'Create User'}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={handleSubmit}> {/* Use onSubmit for the form */}
+        <Form onSubmit={handleSubmit}> 
           <Form.Group controlId="formName">
             <Form.Label>Name</Form.Label>
             <Form.Control
@@ -116,14 +113,14 @@ const UserForm = ({ show, handleClose, user, setUsers }) => {
               value={formData.username}
               onChange={handleChange}
               required
-              readOnly // Make username read-only
+              readOnly 
             />
           </Form.Group>
           <Form.Group controlId="formStreet">
             <Form.Label>Street</Form.Label>
             <Form.Control
               type="text"
-              name="address.street" // Use dot notation for nested state
+              name="address.street" 
               value={formData.address.street}
               onChange={handleChange}
               required
@@ -133,7 +130,7 @@ const UserForm = ({ show, handleClose, user, setUsers }) => {
             <Form.Label>City</Form.Label>
             <Form.Control
               type="text"
-              name="address.city" // Use dot notation for nested state
+              name="address.city" 
               value={formData.address.city}
               onChange={handleChange}
               required
@@ -148,7 +145,7 @@ const UserForm = ({ show, handleClose, user, setUsers }) => {
               onChange={handleChange}
             />
           </Form.Group>
-          <Button variant="primary" type="submit"> {/* Use type="submit" for the button */}
+          <Button variant="primary" type="submit"> 
             {user ? 'Update' : 'Create'}
           </Button>
         </Form>
