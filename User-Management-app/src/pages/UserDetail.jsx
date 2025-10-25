@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Card, Button, Spinner } from 'react-bootstrap';
 
 const UserDetail= () => {
-  const { id } = useParams(); // get user ID from the URL
+  const { id } = useParams();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 

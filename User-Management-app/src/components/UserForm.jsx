@@ -154,7 +154,6 @@ const UserForm = ({ show, handleClose, user, setUsers }) => {
   );
 };
 
-// PropTypes validation
 UserForm.propTypes = {
   show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
