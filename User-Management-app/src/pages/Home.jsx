@@ -3,13 +3,15 @@ import axios from 'axios';
 import UserTable from '../components/UserTable';
 import LoadingSpinner from '../components/LoadingSpinner';
 import UserForm from '../components/UserForm';
-import SearchBar from "../components/SearchBar"
+import SearchBar from "../components/SearchBar";
+
 const Home = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+
   useEffect(() => {
     axios.get('https://jsonplaceholder.typicode.com/users')
       .then(response => {
@@ -31,22 +33,20 @@ const [searchTerm, setSearchTerm] = useState('');
     setShowForm(false);
     setCurrentUser(null);
   };
- const filteredUsers = users.filter(user => {
-    const term = searchTerm.toLowerCase();
-    return (
-      user.name.toLowerCase().includes(term) ||
-      user.email.toLowerCase().includes(term) ||
-      user.company.name.toLowerCase().includes(term)
-    );
-  });
+  const filteredUsers = users.filter(user => 
+    user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (user.company?.name.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
   return (
     <div className="container mt-5">
       <h1>User Management</h1>
-       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <button className="btn btn-primary mb-3" onClick={() => handleShowForm()}>
         Create User
       </button>
-      {loading ? <LoadingSpinner /> : <UserTable  users={filteredUsers} setUsers={setUsers} handleShowForm={handleShowForm} />}
+      {loading ? <LoadingSpinner /> : <UserTable users={filteredUsers} setUsers={setUsers} handleShowForm={handleShowForm} />}
       <UserForm show={showForm} handleClose={handleCloseForm} user={currentUser} setUsers={setUsers} />
     </div>
   );
